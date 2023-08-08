@@ -12,6 +12,16 @@ function filterStudentsByGrade(students, grade) {
   // Відфільтруємо тільки тих студентів оцінка яких співпадає з grade
   // За допомогою перебору масиву виведемо повідомлення для відстеження роботи програми з іменем кожного студента,
   //  який має необхідну оцінку
+  console.error(
+    `якщо ви бачите це повідомлення завдання 1 виконано не правильно`
+  );
+  console.clear();
+  console.log("Завдання: 1 ==============================");
+  const filterStudents = students.filter((student) => student.grade === grade);
+
+  filterStudents.forEach((student) => {
+    console.log(`Студент: ${student.name}, Оцінка: ${student.grade}`);
+  });
 }
 
 // Виклик функції для фільтрації студентів з рівнем "A"
@@ -38,6 +48,9 @@ function logArrayElements(arr) {
   // Повертаємо null, що свідчить про неможливість обробки вхідних даних.
   // Перебираємо кожен елемент масиву.
   // Виводимо в консоль поточний елемент масиву та його індекс в форматі Елемент <індекс>: <значення>
+  let result = Array.isArray(arr);
+  console.assert(result, "Параметр не є масивом.");
+  console.table(arr);
 }
 
 // Перевірка
@@ -65,6 +78,15 @@ function warnAboutMaxArrayLength(arr, maxLength) {
   // Перевіряємо, чи довжина масиву перевищує максимальну допустиму довжину.
   // Якщо довжина масиву перевищує максимальну, виводимо попередження про потенційну проблеми з текстом: "Увага! Довжина масиву перевищує максимально допустиму!".
   // Якщо довжина масиву не перевищує максимальну, виведеме в консоль корисне повідомлення з текстом: "Довжина масиву не перевищує максимально допустиму.".
+  if (!Array.isArray(arr) || !typeof maxLength === "number") {
+    console.error(
+      "Перший аргумент має бути масивом, другий аргумент має бути числом!"
+    );
+    return null;
+  }
+  if (arr.length > maxLength) {
+    console.warn("Увага! Довжина масиву перевищує максимально допустиму!");
+  } else console.info("Довжина масиву не перевищує максимально допустиму.");
 }
 
 // Перевірка
@@ -84,6 +106,10 @@ function compareArrays(arr1, arr2) {
   // Сортуємо масиви за зростанням.
   // Оскільки напряму порівняти масиви за допомогою оператора === не можно, перетворимо ії в json і порівняємо
   // Використовуємо `console.assert()`, щоб вивести помилку, якщо масиви не однакові.
+  arr1.sort((a, b) => a - b);
+  arr2.sort((a, b) => a - b);
+  let result = JSON.stringify(arr1) === JSON.stringify(arr2);
+  console.assert(result, "масиви не однакові");
 }
 
 console.log("Завдання: 4 ==============================");
@@ -110,6 +136,22 @@ function buildMatrix(size) {
   // Додаємо рядок до матриці.
   // Виводимо матрицю в консоль за допомогою як таблицю.
   // Повертаємо створену матрицю.
+  if (!typeof size === "number") {
+    console.error(`Аргумент має бути числом!`);
+    return null;
+  }
+  let newArray = [];
+  for (let i = 0; i < size; i++) {
+    let stringArray = [];
+    for (let j = 0; j < size; j++) {
+      let randNum = Math.floor(Math.random() * 10);
+      stringArray.push(randNum);
+    }
+
+    newArray[i] = stringArray;
+  }
+  console.table(newArray);
+  return newArray;
 }
 
 console.log("Завдання: 5 ==============================");
@@ -144,6 +186,12 @@ function displayGroupedInfo(students) {
   // Виведемо корисне повідомлення з текстом `Вік: ${student.age}`
   // Виведемо корисне повідомлення з текстом `Предмет: ${student.subject}`
   // Закриємо групу
+  for (const student of students) {
+    console.group(`Студент: ${student.name}`);
+    console.info(`Вік: ${student.age}`);
+    console.info(`Предмет: ${student.subject}`);
+    console.groupEnd();
+  }
 }
 
 console.log("Завдання: 7 ==============================");
@@ -174,6 +222,14 @@ function validateUserInput(userInput) {
   // Перевіремо умову наявності імені користувача, якщо воно відсутнє виводимо "Помилка: ім'я користувача відсутнє!"
   // Перевіремо умову наявності паролю, якщо він відсутній виводимо "Помилка: пароль відсутній!"
   // Перевірка довжини паролю чи менше вона ніж 8,якщо ні виводимо повідомлення про потенційну проблему з текстом "Попередження: пароль має бути довшим за 8 символів!"
+  if (!userInput.username) {
+    console.warn("Помилка: ім'я користувача відсутнє!");
+  }
+  if (!userInput.password) {
+    console.warn("Помилка: пароль відсутній!");
+  } else if (userInput.password.length <= 8) {
+    console.warn("Попередження: пароль має бути довшим за 8 символів!");
+  }
 }
 
 console.log("Завдання: 8 ==============================");
@@ -193,6 +249,13 @@ function calculateTotalPrice(products) {
   // Перебираємо кожен об'єкт товару та додаємо ціну товару до загальної вартості
   // Виведення загальної вартості товарів у форматі "Загальна вартість товарів:", total
   // Зупинка вимірювання та виведення часу
+  console.time(`my timer`);
+  let total = 0;
+  products.forEach((product) => {
+    total += product.price;
+  });
+  console.log("Загальна вартість товарів:", total);
+  console.timeEnd(`my timer`);
 }
 
 console.log("Завдання: 9 ==============================");
@@ -219,6 +282,16 @@ function countVowelsAndConsonants(word) {
   // Перетворюємо літеру на малу літеру для порівняння
   // Перевіряємо, чи є літера в нашому рядку з голосними,якщо так виводимио лічильник голосних, інакше приголосних
   // Скидаємо лічильники
+  let vowels = "aeiou";
+  let vowelCount = 0;
+  let consonantCount = 0;
+  for (const letter of word) {
+    let smallLetter = letter.toLowerCase();
+    if (vowels.includes(smallLetter)) {
+      vowelCount++;
+    } else consonantCount++;
+  }
+  return { vowelCount, consonantCount };
 }
 console.log("Завдання: 10 ==============================");
 countVowelsAndConsonants("HelloWorld!");
